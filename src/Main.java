@@ -15,7 +15,7 @@ public class Main   //Объявляем основной класс
     private static double mainTaxPercent = 0.24; //переменная, которая может быть использована только в данном классе, коэф основного налога
     private static double managerPercent = 0.15; //переменная, которая может быть использована только в данном классе, коэф для зп менеджера
 
-    private static double minInvestmentsAmount = 100000; //переменная, которая может быть использована только в данном классе, мин инвестиции
+    private static double minInvestmentsAmount = 100000; // переменная, которая может быть использована только в данном классе, мин инвестиции
 
     public static void main(String[] args) //основной метод
     {
