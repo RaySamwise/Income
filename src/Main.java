@@ -17,28 +17,34 @@ public class Main   //Объявляем основной класс
 
     private static double minInvestmentsAmount = 100000; // переменная, которая может быть использована только в данном классе, мин инвестиции
 
+    public static double calcMinIncome()  //метод расчитывает минимальный доход ,при котороом останутся средства для ивестиций
+    {
+        double minIncome = (minInvestmentsAmount - mainTaxPercent*calculateFixedCharges() + calculateFixedCharges()) / (1 - managerPercent - mainTaxPercent + (mainTaxPercent * managerPercent) );
+        return minIncome;
+    }
+
     public static void main(String[] args) //основной метод
     {
         while(true) // цикл, пока истина, исполняется код в цикле. так как внутри не переменная то исполняется всегда
         {
+            System.out.println("Минимальный доход для инвестиций: " + calcMinIncome());
             System.out.println("Введите сумму доходов компании за месяц " +
-                "(от 200 до 900 тысяч рублей): ");  //вывод сообщения
+                "(от "+ calcMinIncome() + " до 900 тысяч рублей): ");  //вывод сообщения
             int income = (new Scanner(System.in)).nextInt(); //переменная, экземпляр класса Scanner,  считывает ввод в консоли
 
             if(!checkIncomeRange(income)) {   //если метод checkIncomeRange возвращает истину, возвращаемся на первый шаг цикла(вывод текста),
                                               // иначе продолжается выполнение кода ниже
                 continue;
             }
-
+           // System.out.println("Можно инвестировать: " + minInvestmentsAmount);
             double managerSalary = income * managerPercent; //переменная вычисляет зп менеджера
             double pureIncome = income - managerSalary -
                 calculateFixedCharges();                   //переменная вычисляет чистый доход: доход-зп менеджера-результат метода  calculateFixedCharges
             double taxAmount = mainTaxPercent * pureIncome; //переменная вычисляет налог
             double pureIncomeAfterTax = pureIncome - taxAmount; // переменная вычисляет чистый доход за вычетом налога
-
+           // double minIncome = pureIncomeAfterTax + minInvestmentsAmount;
             boolean canMakeInvestments = pureIncomeAfterTax >=   //переменная проверяет остаются ли средства для инвестций
                 minInvestmentsAmount;
-
             System.out.println("Зарплата менеджера: " + managerSalary);  //вывод зп менеджера
             System.out.println("Общая сумма налогов: " +
                 (taxAmount > 0 ? taxAmount : 0));   //вывод общ суммы налога: проверка если налоги больше 0, то выводим налог, иначе 0
@@ -53,7 +59,7 @@ public class Main   //Объявляем основной класс
     private static boolean checkIncomeRange(int income)  // метод возвращает булево значение,
     // проверяет если введенное значение дохода меньше минимального то ложь, если больше максимального, то ложь, иначе истина
     {
-        if(income < minIncome)
+        if(income < calcMinIncome())
         {
             System.out.println("Доход меньше нижней границы");
             return false;
@@ -74,4 +80,5 @@ public class Main   //Объявляем основной класс
                 assistantSalary +
                 financeManagerSalary;
     }
+
 }
